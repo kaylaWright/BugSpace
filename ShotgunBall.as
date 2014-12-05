@@ -10,14 +10,16 @@
 		
 		private var startPos:Point = new Point();
 		
-		public function ShotgunBall(_x:Number, _y:Number, _rot:Number) 
+		public function ShotgunBall(_owner:MovieClip, _x:Number, _y:Number, _rot:Number) 
 		{
 			this.rotation = _rot + ((Math.random() - Math.random()) * 20);
-			super(_x, _y, this.rotation);
+			super(_owner, _x, _y, this.rotation);
 			
 			this.speed = Math.floor(Math.random() * 9) + 3;
 			this.range = Math.floor(Math.random() * 100) + 250;
 			this.scaleX = this.scaleY = Math.floor(Math.random() * 1.5) + 1;
+			
+			damage = this.scaleX * 10;
 			
 			startPos.x = _x;
 			startPos.y = _y;
@@ -27,7 +29,7 @@
 			addEventListener(Event.ENTER_FRAME, Update, false, 0, true);
 		}
 		
-		public function Update(e:Event) : void
+		override public function Update(e:Event) : void
 		{
 			this.x += this.vX;
 			this.y += this.vY;

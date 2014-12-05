@@ -33,11 +33,13 @@ package
 			super(_target);
 			primaryTarget = _target;
 			
-			damageFactor = 2; 
+			damageFactor = 10; 
 			speed = 50;
-			
+		
 			goalLocation.x = target.x;
 			goalLocation.y = target.y;
+			
+			angle = RadToDeg(Math.atan2(target.y - this.y, target.x - this.x)) + 180;
 			
 			addEventListener(Event.ENTER_FRAME, Update, false, 0, true);
 		}
@@ -131,29 +133,17 @@ package
 			rotate = 0;
 		}
 		
-		private function GetNewOrientation(_new:Vector2D) : Number
-		{
-			if (_new.GetLength() > 0)
-			{
-				return Math.atan2( -this.x, this.y);
-			}
-			else
-			{
-				return this.rotation;
-			}
-		}
-		
 		override public function Fire(e:TimerEvent) : void
 		{
 			var rnd:Number = Math.floor(Math.random() * 15) + 1;
 			
 			if (rnd == 1)
 			{
-				BugSpaceMain.STAGE.addChild(new Shotgun(this.x, this.y, this.rotation));
+				BugSpaceMain.STAGE.addChild(new Shotgun(this, this.x, this.y, this.rotation));
 			}
 			else
 			{
-				BugSpaceMain.STAGE.addChild(new ShotgunBall(this.x, this.y, this.rotation));
+				BugSpaceMain.STAGE.addChild(new ShotgunBall(this, this.x, this.y, this.rotation));
 			}
 			
 		}
@@ -172,6 +162,19 @@ package
 			SetTarget(primaryTarget);
 			
 			return false;
+		}
+		
+		override public function Destroy() : void
+		{
+			if (this.parent)
+			{
+				this.parent.removeChild(this);
+			}
+			
+			fireTimer.stop();
+			//ignored call if not there.
+			removeEventListener(Event.ENTER_FRAME, Update);
+			removeEventListener(TimerEvent.TIMER, Fire);
 		}
 	}
 }

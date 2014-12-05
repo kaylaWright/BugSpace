@@ -19,18 +19,20 @@
 		private var growth:Number = 2;
 		private var isGrowing:Boolean = false;
 		
-		public function Grenade(_x:Number, _y:Number, _rot:Number) 
+		public function Grenade(_owner:MovieClip, _x:Number, _y:Number, _rot:Number) 
 		{
-			super(_x, _y, _rot);
+			super(_owner, _x, _y, _rot);
 			
 			speed = 10.0;
 			startPos.x = _x;
 			startPos.y = _y;
 			
+			this.damage = 100;
+			
 			addEventListener(Event.ENTER_FRAME, Update, false, 0, true);
 		}
 		
-		public function Update(e:Event) : void
+		override public function Update(e:Event) : void
 		{
 			this.x += this.vX;
 			this.y += this.vY;

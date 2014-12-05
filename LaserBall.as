@@ -6,14 +6,16 @@
 	public class LaserBall extends Projectile
 	{
 		
-		public function LaserBall(_x:Number, _y:Number, _rot:Number) 
-		{	
-			super(_x, _y, _rot);
+		public function LaserBall(_owner:MovieClip, _x:Number, _y:Number, _rot:Number) 
+		{
+			super(_owner, _x, _y, _rot);
+			
+			this.damage = 5;
 
 			addEventListener(Event.ENTER_FRAME, Update, false, 0, true);
 		}
 		
-		public function Update(e:Event) : void
+		override public function Update(e:Event) : void
 		{
 			this.x += this.vX;
 			this.y += this.vY;
@@ -23,8 +25,6 @@
 				Destroy();
 			}
 		}
-		
-
 	}
 	
 }
